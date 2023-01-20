@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 class CustomLogisticRegression:
 
     def __init__(self, fit_intercept=True, l_rate=0.01, n_epoch=100):
+        # Initialize the model
         self.fit_intercept = fit_intercept
         self.l_rate = l_rate
         self.n_epoch = n_epoch
@@ -21,15 +22,18 @@ class CustomLogisticRegression:
         self.last_log_loss = []
 
     def sigmoid(self, t):
+        # Sigmoid function
         return 1 / (1 + np.exp(-t))
 
     def predict_proba(self, row, coef_):
+        # Predict the probability of a data point belonging to a class
         if self.fit_intercept:
             row = np.insert(row, 0, np.ones(row.shape[0]), axis=1)
         t = np.dot(row, coef_)
         return self.sigmoid(t)
 
     def mse(self, X, y):
+        # Mean squared error function
         y_hat = self.predict_proba(X, self.coef_)
         return np.mean((y - y_hat) ** 2)
 
@@ -64,6 +68,7 @@ class CustomLogisticRegression:
         self.fit_intercept = True
 
     def log_loss(self, X, y):
+        # Log loss function
         y_hat = self.predict_proba(X, self.coef_)
         return -np.mean(y * np.log(y_hat) + (1 - y) * np.log(1 - y_hat))
 
@@ -75,7 +80,7 @@ class CustomLogisticRegression:
         self.coef_ += -self.l_rate * gradient
 
     def fit_log_loss(self, X_train, y_train):
-        # stochastic gradient descent implementation
+        # Stochastic gradient descent implementation
         n = X_train.shape[0]
         if self.fit_intercept:
             X_train = np.insert(X_train, 0, np.ones(n), axis=1)
@@ -100,12 +105,14 @@ class CustomLogisticRegression:
         self.fit_intercept = True
 
     def predict(self, X_test, cut_off=0.5):
+        # Predict the class labels for the test data
         y_hat = self.predict_proba(X_test, self.coef_)
         predictions = np.where(y_hat >= cut_off, 1, 0)
         return predictions  # predictions are binary values - 0 or 1
 
 
 def load_data():
+    # Load the breast cancer dataset from sklearn
     data = load_breast_cancer()
     col_names = ['worst concave points', 'worst perimeter', 'worst radius']
     X = data.data[:, [data['feature_names'].tolist().index(name)
@@ -147,7 +154,7 @@ X = stats.zscore(X)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=0.8, random_state=43)
 
-# Create a new model
+# Create a new model and fit it
 model = CustomLogisticRegression(fit_intercept=True, l_rate=0.01, n_epoch=1000)
 
 # Make predictions about the mse and log loss
@@ -157,7 +164,7 @@ y_pred_mse = model.predict(X_test)
 model.fit_log_loss(X_train, y_train)
 y_pred_log_loss = model.predict(X_test)
 
-# sklearn model, default LR
+# Create a new sklearn model (to compare the custom model with)
 skmodel = LogisticRegression(fit_intercept=True, solver='lbfgs', max_iter=1000)
 skmodel.fit(X_train, y_train)
 y_pred_sk = skmodel.predict(X_test)

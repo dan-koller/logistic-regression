@@ -1,4 +1,4 @@
-# Python-Logistic-Regression
+# Python Logistic Regression
 
 This is a simple implementation of logistic regression in Python built from scratch. It uses the breast cancer dataset from sklearn. The dataset contains 569 samples and 30 features. The goal is to predict whether a tumor is malignant or benign.
 
@@ -47,7 +47,7 @@ The app will run and print the accuracy of the model. The model is trained on 80
 
 The app prints the mse, accuracy and loss for the training and testing data and compares the custom model to the sklearn model.
 
-The output is plotted and saved to `data/graph.png`.
+The output is plotted and saved to `data/graph.png` and looks like this:
 
 ![Graph plot](./data/graph.jpg "Plot of the data")
 
