@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 
 class CustomLogisticRegression:
 
-    def __init__(self, fit_intercept=True, l_rate=0.01, n_epoch=100):
+    def __init__(self, fit_intercept: bool = True, l_rate: float = 0.01, n_epoch: int = 100):
         # Initialize the model
         self.fit_intercept = fit_intercept
         self.l_rate = l_rate
@@ -21,29 +21,29 @@ class CustomLogisticRegression:
         self.first_log_loss = []
         self.last_log_loss = []
 
-    def sigmoid(self, t):
+    def sigmoid(self, t: np.ndarray) -> np.ndarray:
         # Sigmoid function
         return 1 / (1 + np.exp(-t))
 
-    def predict_proba(self, row, coef_):
+    def predict_proba(self, row: np.ndarray, coef_: np.ndarray) -> np.ndarray:
         # Predict the probability of a data point belonging to a class
         if self.fit_intercept:
             row = np.insert(row, 0, np.ones(row.shape[0]), axis=1)
         t = np.dot(row, coef_)
         return self.sigmoid(t)
 
-    def mse(self, X, y):
+    def mse(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
         # Mean squared error function
         y_hat = self.predict_proba(X, self.coef_)
         return np.mean((y - y_hat) ** 2)
 
-    def update_mse(self, row, y_train):
+    def update_mse(self, row: np.ndarray, y_train: np.ndarray):
         # Method to update the mse for a single data point
         y_hat = self.predict_proba(row, self.coef_)
         gradient = (y_hat - y_train) * y_hat * (1 - y_hat)
         self.coef_ += -self.l_rate * gradient * row
 
-    def fit_mse(self, X_train, y_train):
+    def fit_mse(self, X_train: np.ndarray, y_train: np.ndarray):
         n = X_train.shape[0]
         if self.fit_intercept:
             X_train = np.insert(X_train, 0, np.ones(n), axis=1)
@@ -67,19 +67,19 @@ class CustomLogisticRegression:
 
         self.fit_intercept = True
 
-    def log_loss(self, X, y):
+    def log_loss(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
         # Log loss function
         y_hat = self.predict_proba(X, self.coef_)
         return -np.mean(y * np.log(y_hat) + (1 - y) * np.log(1 - y_hat))
 
-    def update_log_loss(self, row, y_train, n):
+    def update_log_loss(self, row: np.ndarray, y_train: np.ndarray, n: int):
         # Method to update the log loss for a single data point
         y_hat = self.predict_proba(row, self.coef_)
         error = y_hat - y_train
         gradient = error * row / n
         self.coef_ += -self.l_rate * gradient
 
-    def fit_log_loss(self, X_train, y_train):
+    def fit_log_loss(self, X_train: np.ndarray, y_train: np.ndarray):
         # Stochastic gradient descent implementation
         n = X_train.shape[0]
         if self.fit_intercept:
@@ -104,7 +104,7 @@ class CustomLogisticRegression:
 
         self.fit_intercept = True
 
-    def predict(self, X_test, cut_off=0.5):
+    def predict(self, X_test: np.ndarray, cut_off: float = 0.5) -> np.ndarray:
         # Predict the class labels for the test data
         y_hat = self.predict_proba(X_test, self.coef_)
         predictions = np.where(y_hat >= cut_off, 1, 0)
@@ -121,7 +121,7 @@ def load_data():
     return X, y
 
 
-def remove_empty_lines(string):
+def remove_empty_lines(string: str) -> list:
     # Removes empty lines from the string & returns a list split by \n separator
     string_splitted = string.split("\n")
     string_splitted_with_no_empty_lines = [
@@ -129,7 +129,7 @@ def remove_empty_lines(string):
     return string_splitted_with_no_empty_lines
 
 
-def plot(result_dict):
+def plot(result_dict: dict):
     # Plot the results
     fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(20, 10))
     axs[0, 0].plot(result_dict['mse_error_first'])
