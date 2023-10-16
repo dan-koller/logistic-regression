@@ -1,4 +1,4 @@
-# Python Logistic Regression
+# Logistic Regression
 
 This is a simple implementation of logistic regression in Python built from scratch. It uses the breast cancer dataset from sklearn. The dataset contains 569 samples and 30 features. The goal is to predict whether a tumor is malignant or benign.
 
@@ -12,7 +12,7 @@ This is a simple implementation of logistic regression in Python built from scra
 1. Clone the repository
 
 ```bash
-git clone https://github.com/dan-koller/Python-Logistic-Regression
+git clone https://github.com/dan-koller/logistic-regression
 ```
 
 2. Create a virtual environment\*
