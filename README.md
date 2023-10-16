@@ -1,6 +1,6 @@
 # Logistic Regression
 
-This is a simple implementation of logistic regression in Python built from scratch. It uses the breast cancer dataset from sklearn. The dataset contains 569 samples and 30 features. The goal is to predict whether a tumor is malignant or benign.
+This is a simple logistic regression model implemented in python. It uses the breast cancer dataset from sklearn. The dataset contains 569 samples and 30 features. The goal is to predict whether a tumor is malignant or benign.
 
 ## Requirements
 
